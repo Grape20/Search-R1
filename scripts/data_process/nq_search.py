@@ -41,7 +41,7 @@ If you find no further external knowledge needed, you can directly provide the a
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--local_dir', default='./data/nq_search')
+    parser.add_argument('--local_dir', default='../cloud/cloud-s3fs/data/nq_search')  # Changed to ../cloud/cloud-s3fs for cloud storage
     parser.add_argument('--hdfs_dir', default=None)
     parser.add_argument('--template_type', type=str, default='base')
 
@@ -51,8 +51,8 @@ if __name__ == '__main__':
 
     dataset = datasets.load_dataset('RUC-NLPIR/FlashRAG_datasets', 'nq')
 
-    train_dataset = dataset['train']
-    test_dataset = dataset['test']
+    train_dataset = dataset['train'].select(range(1000))  # Use select to keep Dataset type
+    test_dataset = dataset['test'].select(range(1000))   # Use select to keep Dataset type
 
     # add a row to each data item that represents a unique id
     def make_map_fn(split):
