@@ -24,8 +24,10 @@ You can search as many times as your want. \
 If you find no further external knowledge needed, you can directly provide the answer inside <answer> and </answer>, without detailed illustrations. For example, <answer> Beijing </answer>. Question: {question}\n"""
 
 # Initialize the tokenizer and model
-tokenizer = transformers.AutoTokenizer.from_pretrained(model_id)
-model = transformers.AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="auto")
+import os
+cache_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../cloud/cloud-s3fs")
+tokenizer = transformers.AutoTokenizer.from_pretrained(model_id, cache_dir=cache_dir)
+model = transformers.AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="auto", cache_dir=cache_dir)
 
 # Define the custom stopping criterion
 class StopOnSequence(transformers.StoppingCriteria):
